@@ -6,6 +6,13 @@ Tunnel.bindInterface("costura_coletar",emP)
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- VARIAVEIS
 -----------------------------------------------------------------------------------------------------------------------------------------
+function emP.checkPermission()
+	local source = source
+	local user_id = vRP.getUserId(source)
+   return vRP.hasPermission(user_id,"costura.permissao")
+
+end
+
 function emP.checkPayment()
 	local source = source
    local user_id = vRP.getUserId(source)

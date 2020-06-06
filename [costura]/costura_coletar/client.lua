@@ -1,7 +1,7 @@
 local Tunnel = module("vrp","lib/Tunnel")
 local Proxy = module("vrp","lib/Proxy")
 emP = Tunnel.getInterface("costura_coletar")
-vRP = Proxy.getInterface("vRP")
+--vRP = Proxy.getInterface("vRP")
 
 -----------------------------------------------------------------------------------------------------------------------------------------
 -- VARIAVEIS
@@ -54,17 +54,17 @@ Citizen.CreateThread(function()
 			local bowz,cdz = GetGroundZFor_3dCoord(CoordenadaX,CoordenadaY,CoordenadaZ)
 			local distance = GetDistanceBetweenCoords(CoordenadaX,CoordenadaY,cdz,x,y,z,true)
 
-			if distance <= 30.0 then
-				DrawMarker(21,CoordenadaX,CoordenadaY,CoordenadaZ-0.5,0,0,0,0,180.0,130.0,1.0,1.0,0.5,240,0,0,30,1,0,0,1)
-				if distance <= 1.5 then
-					drawTxt("PRESSIONE  ~b~E~w~  PARA INICIAR A ROTA",4,0.5,0.93,0.50,255,255,255,180)
-					if IsControlJustPressed(0,38) then
-						servico = true
-						selecionado = 1
-						CriandoBlip(locs,selecionado)
-					end
-				end
-			end
+         if distance <= 30.0  then
+            DrawMarker(21,CoordenadaX,CoordenadaY,CoordenadaZ-0.5,0,0,0,0,180.0,130.0,1.0,1.0,0.5,240,0,0,30,1,0,0,1)
+            if distance <= 1.5 then
+               drawTxt("PRESSIONE  ~b~E~w~  PARA INICIAR A ROTA",4,0.5,0.93,0.50,255,255,255,180)
+               if IsControlJustPressed(0,38) and emP.checkPermission() then
+                  servico = true
+                  selecionado = 1
+                  CriandoBlip(locs,selecionado)
+               end
+            end
+         end
 		end
 	end
 end)

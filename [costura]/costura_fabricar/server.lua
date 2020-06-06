@@ -10,29 +10,8 @@ Tunnel.bindInterface("costura_fabricar",func)
 function func.checkPermission()
 	local source = source
 	local user_id = vRP.getUserId(source)
-	return vRP.hasPermission(user_id,"mafia.permissao") or vRP.hasPermission(user_id,"bloods.permissao")
+	return vRP.hasPermission(user_id,"costura.permissao")
 end
-RegisterCommand('use',function(source,args,rawCommand)
-	if args[1] == nil then
-		return
-   end
-	local user_id = vRP.getUserId(source)
-	if args[1] == "colete" then
-		if vRP.tryGetInventoryItem(user_id,"colete",1) then
-         vRPclient.setArmour(source,100)
-			TriggerClientEvent("Notify",source,"sucesso","Colete Equipado com sucesso.")
-		else
-			TriggerClientEvent("Notify",source,"negado","Colete não encontrado na mochila.")
-      end
-   elseif args[1] == "mochila" then
-		if vRP.tryGetInventoryItem(user_id,"mochila",1) then
-			vRP.varyExp(user_id,"physical","strength", 650)
-			TriggerClientEvent("Notify",source,"sucesso","Mochila utilizada com sucesso.")
-		else
-			TriggerClientEvent("Notify",source,"negado","Mochila não encontrada na mochila.")
-      end
-	end
-end)
 
 RegisterServerEvent("costura-comprar")
 AddEventHandler("costura-comprar",function(item)
@@ -66,7 +45,8 @@ AddEventHandler("costura-comprar",function(item)
 
 						TriggerClientEvent("costura_fabricar:fecharMenu", source)
 						TriggerClientEvent("progress",source,tempo*1000,"COSTURANDO")
-						TriggerClientEvent("costura_fabricar:animacao",source, true)
+                  TriggerClientEvent("costura_fabricar:animacao",source, true)
+
 						Citizen.Wait(tempo*1000)
 						TriggerClientEvent("costura_fabricar:animacao",source, false)
 
@@ -88,5 +68,27 @@ AddEventHandler("costura-comprar",function(item)
 				end
 			end
 		end
+	end
+end)
+
+RegisterCommand('use',function(source,args,rawCommand)
+	if args[1] == nil then
+		return
+   end
+	local user_id = vRP.getUserId(source)
+	if args[1] == "colete" then
+		if vRP.tryGetInventoryItem(user_id,"colete",1) then
+         vRPclient.setArmour(source,100)
+			TriggerClientEvent("Notify",source,"sucesso","Colete Equipado com sucesso.")
+		else
+			TriggerClientEvent("Notify",source,"negado","Colete não encontrado na mochila.")
+      end
+   elseif args[1] == "mochila" then
+		if vRP.tryGetInventoryItem(user_id,"mochila",1) then
+			vRP.varyExp(user_id,"physical","strength", 650)
+			TriggerClientEvent("Notify",source,"sucesso","Mochila utilizada com sucesso.")
+		else
+			TriggerClientEvent("Notify",source,"negado","Mochila não encontrada na mochila.")
+      end
 	end
 end)

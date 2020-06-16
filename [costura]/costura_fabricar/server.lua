@@ -35,34 +35,21 @@ AddEventHandler("costura-comprar",function(item)
 					for k2,v2 in pairs(v.componentes) do -- SE TEM TODOS OS ITENS, TIRA ELES DO INVENTARIO
 						vRP.tryGetInventoryItem(user_id, v2.componente, v2.qtd)
 					end
-					isArma = true
+					
 				else
 					tempo = 10
-					isArma = false
+					
 				end
 
 				if vRP.getInventoryWeight(user_id)+vRP.getItemWeight(v.item)*v.qtd <= vRP.getInventoryMaxWeight(user_id) then
 
 						TriggerClientEvent("costura_fabricar:fecharMenu", source)
 						TriggerClientEvent("progress",source,tempo*1000,"COSTURANDO")
-                  TriggerClientEvent("costura_fabricar:animacao",source, true)
+                  				TriggerClientEvent("costura_fabricar:animacao",source, true)
 
 						Citizen.Wait(tempo*1000)
 						TriggerClientEvent("costura_fabricar:animacao",source, false)
-
-
-						if not isArma then
-							if vRP.tryPayment(user_id,parseInt(v.compra)) then
-								vRP.giveInventoryItem(user_id,v.item,parseInt(v.qtd))
-								TriggerClientEvent("Notify",source,"sucesso","Comprou <b>"..parseInt(v.qtd).."x "..vRP.getItemName(v.item).."</b> por <b>$"..vRP.format(parseInt(v.compra)).." dólares</b>.")
-							else
-								TriggerClientEvent("Notify",source,"negado","Dinheiro insuficiente.")
-							end
-						else
-							vRP.giveInventoryItem(user_id,v.item,parseInt(v.qtd))
-							TriggerClientEvent("Notify",source,"sucesso","Você recebeu <b>"..parseInt(v.qtd).."x "..vRP.getItemName(v.item).."</b>")
-						end
-
+						
 				else
 					TriggerClientEvent("Notify",source,"negado","Espaço insuficiente.")
 				end
